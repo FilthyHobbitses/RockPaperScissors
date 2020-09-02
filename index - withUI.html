@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Rock Paper Scissors</title>
+  </head>
+  <body>
+    <div class="parent">
+      <div class="main">
+        <div class="btn" id="rock">Rock</div>
+        <div class="btn" id="paper">Paper</div>
+        <div class="btn" id="scissors">Scissors</div>
+      </div>
+      <div class="result" id="winResult"></div>
+      <div class="scores">
+        <p>player</p>
+        <div class="score" id="playerScore"></div>
+        <p>computer</p>
+        <div class="score" id="compScore"></div>
+      </div>
+    </div>
+
+    <script>
+      let choices = ["rock", "paper", "scissors"];
+
+      //display outcome
+      let outcome = document.getElementById("winResult");
+
+      //scores
+      let playerScore = 0;
+      let compScore = 0;
+      let playerScoreBox = document.getElementById("playerScore");
+      let compScoreBox = document.getElementById("compScore");
+
+      //player button click
+
+      for (let i = 0; i < choices.length; i++) {
+        let choice = choices[i];
+        let buttonClicked = document.getElementById(choice);
+        console.log(buttonClicked);
+        buttonClicked.addEventListener("click", function (e) {
+          result = playRound(choice);
+          outcome.innerText = result;
+          playerScoreBox.innerText = playerScore;
+          compScoreBox.innerText = compScore;
+          if (playerScore >= 5 || compScore >= 5) {
+            outcome.innerText = "  New Game";
+            playerScore = 0;
+            compScore = 0;
+            playerScoreBox.innerText = playerScore;
+            compScoreBox.innerText = compScore;
+            console.log("hello");
+          }
+        });
+      }
+
+      /*computer pick random*/
+      function computerPlay(inputChoice = choices) {
+        let randomNum = Math.floor(Math.random() * inputChoice.length);
+        return inputChoice[randomNum];
+      }
+      computerPlay();
+
+      const computerSelection = computerPlay();
+
+      /*play single round */
+      function playRound(playerSelection) {
+        let computerSelection = computerPlay();
+        let playerInput = playerSelection.toLowerCase();
+        console.log(`Player chose ${playerInput}`);
+
+        console.log(`Computer chose ${computerSelection}`);
+        if (playerSelection == computerSelection) {
+          return `It's a tie`;
+        } else if (playerSelection == "rock" && computerSelection == "paper") {
+          compScore++;
+          return `You lose! Paper beats rock`;
+        } else if (
+          playerSelection == "rock" &&
+          computerSelection == "scissors"
+        ) {
+          playerScore++;
+          return `You win! Rock beats Scissors`;
+        } else if (playerSelection == "paper" && computerSelection == "rock") {
+          playerScore++;
+          return `You win! Paper beats Rock`;
+        } else if (
+          playerSelection == "paper" &&
+          computerSelection == "scissors"
+        ) {
+          compScore++;
+          return `You lose! Scissors beats paper`;
+        } else if (
+          playerSelection == "scissors" &&
+          computerSelection == "paper"
+        ) {
+          playerScore++;
+          return `You win! Scissors beats paper`;
+        } else if (
+          playerSelection == "scissors" &&
+          computerSelection == "rock"
+        ) {
+          compScore++;
+          return `You lose! Rock beats scissors`;
+        } else {
+          return `Please make a selection`;
+        }
+      }
+
+      playRound("Rock");
+    </script>
+  </body>
+</html>
